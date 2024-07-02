@@ -62,7 +62,11 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Syncfusion Flutter Gauge')),
+        appBar: AppBar(
+          title: const Text('FDG Lux Meter'),
+          centerTitle: true,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue,),
         body: Column(
           children: [
             _getRadialGauge(),
@@ -83,9 +87,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   Widget _getRadialGauge() {
     return SfRadialGauge(
-        title: const GaugeTitle(
-            text: 'Lux Meter',
-            textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+        // title: const GaugeTitle(
+        //     text: 'Lux Meter',
+        //     textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
         axes: <RadialAxis>[
           RadialAxis(minimum: 0, maximum: 1000, ranges: <GaugeRange>[
             GaugeRange(
