@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 
 class LuxChart extends StatefulWidget {
   const LuxChart(this.luxValue, {super.key});
-  
+
   final double luxValue;
   final Color sinColor = Colors.blue;
-  
+
   @override
   State<LuxChart> createState() => _LuxChartState();
 }
@@ -60,6 +60,7 @@ class _LuxChartState extends State<LuxChart> {
                       maxX: luxPoints.last.x,
                       lineTouchData: const LineTouchData(enabled: false),
                       clipData: const FlClipData.all(),
+                      //clipData: const FlClipData.none(),
                       gridData: const FlGridData(
                         show: true,
                         drawVerticalLine: false,
@@ -68,9 +69,30 @@ class _LuxChartState extends State<LuxChart> {
                       lineBarsData: [
                         sinLine(luxPoints),
                       ],
-                      titlesData: const FlTitlesData(
-                        show: false,
-                      ),
+                      titlesData: FlTitlesData(
+                          show: true,
+                          topTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          bottomTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          rightTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          leftTitles: AxisTitles(
+                              axisNameWidget: const Text("lux"),
+                              //axisNameSize: 20,
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 50,
+                                //interval: 250,
+                                getTitlesWidget: (value, meta) {
+                                  return SideTitleWidget(
+                                    //angle: -3.14 / 4,
+                                    space: 5 /* space to axis */,
+                                    axisSide: AxisSide.left,
+                                    child: Text(value.toStringAsFixed(0)),
+                                  );
+                                },
+                              ))),
                     ),
                   ),
                 ),
@@ -82,18 +104,28 @@ class _LuxChartState extends State<LuxChart> {
 
   LineChartBarData sinLine(List<FlSpot> points) {
     return LineChartBarData(
-      spots: points,
-      dotData: const FlDotData(
-        show: true,
-      ),
-      //color: Colors.blue,
-      gradient: LinearGradient(
-        colors: [widget.sinColor.withOpacity(0), widget.sinColor],
-        stops: const [0, 0.5],
-      ),
-      barWidth: 4,
-      isCurved: false,
-    );
+        spots: points,
+        dotData: const FlDotData(
+          show: false,
+        ),
+        //color: Colors.blue,
+        gradient: LinearGradient(
+          colors: [widget.sinColor.withOpacity(0), widget.sinColor],
+          stops: const [0, 0.5],
+        ),
+        barWidth: 2,
+        isCurved: false,
+        belowBarData: BarAreaData(
+          show: true,
+          cutOffY: 1000,
+          applyCutOffY: false,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [widget.sinColor, widget.sinColor.withOpacity(0.2)],
+            stops: const [0, 1],
+          ),
+        ));
   }
 
   @override
