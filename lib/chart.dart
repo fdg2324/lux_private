@@ -7,23 +7,21 @@ import 'package:flutter/material.dart';
 
 // copied from https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/line/line_chart_sample10.dart
 
-class LineChartSample10 extends StatefulWidget {
-  const LineChartSample10({super.key});
+class LuxChart extends StatefulWidget {
+  const LuxChart({super.key});
 
   final Color sinColor = Colors.blue;
-  final Color cosColor = Colors.pink;
 
   @override
-  State<LineChartSample10> createState() => _LineChartSample10State();
+  State<LuxChart> createState() => _LuxChartState();
 }
 
-class _LineChartSample10State extends State<LineChartSample10> {
+class _LuxChartState extends State<LuxChart> {
   final limitCount = 100;
   final sinPoints = <FlSpot>[];
-  final cosPoints = <FlSpot>[];
 
   double xValue = 0;
-  double step = 0.05;
+  double step = 0.5;
 
   late Timer timer;
 
@@ -33,11 +31,9 @@ class _LineChartSample10State extends State<LineChartSample10> {
     timer = Timer.periodic(const Duration(milliseconds: 40), (timer) {
       while (sinPoints.length > limitCount) {
         sinPoints.removeAt(0);
-        cosPoints.removeAt(0);
       }
       setState(() {
         sinPoints.add(FlSpot(xValue, math.sin(xValue)));
-        cosPoints.add(FlSpot(xValue, math.cos(xValue)));
       });
       xValue += step;
     });
@@ -45,7 +41,7 @@ class _LineChartSample10State extends State<LineChartSample10> {
 
   @override
   Widget build(BuildContext context) {
-    return cosPoints.isNotEmpty
+    return sinPoints.isNotEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,8 +49,9 @@ class _LineChartSample10State extends State<LineChartSample10> {
               AspectRatio(
                 aspectRatio: 1.5,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: LineChart(
+                    duration: Duration.zero,
                     LineChartData(
                       minY: -1,
                       maxY: 1,
@@ -66,10 +63,9 @@ class _LineChartSample10State extends State<LineChartSample10> {
                         show: true,
                         drawVerticalLine: false,
                       ),
-                      borderData: FlBorderData(show: false),
+                      borderData: FlBorderData(show: true),
                       lineBarsData: [
                         sinLine(sinPoints),
-                        cosLine(cosPoints),
                       ],
                       titlesData: const FlTitlesData(
                         show: false,
@@ -87,26 +83,12 @@ class _LineChartSample10State extends State<LineChartSample10> {
     return LineChartBarData(
       spots: points,
       dotData: const FlDotData(
-        show: false,
+        show: true,
       ),
+      //color: Colors.blue,
       gradient: LinearGradient(
         colors: [widget.sinColor.withOpacity(0), widget.sinColor],
-        stops: const [0.1, 1.0],
-      ),
-      barWidth: 4,
-      isCurved: false,
-    );
-  }
-
-  LineChartBarData cosLine(List<FlSpot> points) {
-    return LineChartBarData(
-      spots: points,
-      dotData: const FlDotData(
-        show: false,
-      ),
-      gradient: LinearGradient(
-        colors: [widget.cosColor.withOpacity(0), widget.cosColor],
-        stops: const [0.1, 1.0],
+        stops: const [0, 0.5],
       ),
       barWidth: 4,
       isCurved: false,

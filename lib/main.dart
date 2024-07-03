@@ -83,7 +83,7 @@ class MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
-            const LineChartSample10()
+            const LuxChart()
           ],
         ));
   }
