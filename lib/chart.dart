@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math' as math;
+//import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 //import 'package:fl_chart_app/presentation/resources/app_resources.dart';
@@ -8,17 +8,18 @@ import 'package:flutter/material.dart';
 // copied from https://github.com/imaNNeo/fl_chart/blob/main/example/lib/presentation/samples/line/line_chart_sample10.dart
 
 class LuxChart extends StatefulWidget {
-  const LuxChart({super.key});
-
+  const LuxChart(this.luxValue, {super.key});
+  
+  final double luxValue;
   final Color sinColor = Colors.blue;
-
+  
   @override
   State<LuxChart> createState() => _LuxChartState();
 }
 
 class _LuxChartState extends State<LuxChart> {
   final limitCount = 100;
-  final sinPoints = <FlSpot>[];
+  final luxPoints = <FlSpot>[];
 
   double xValue = 0;
   double step = 0.5;
@@ -29,11 +30,11 @@ class _LuxChartState extends State<LuxChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(milliseconds: 40), (timer) {
-      while (sinPoints.length > limitCount) {
-        sinPoints.removeAt(0);
+      while (luxPoints.length > limitCount) {
+        luxPoints.removeAt(0);
       }
       setState(() {
-        sinPoints.add(FlSpot(xValue, math.sin(xValue)));
+        luxPoints.add(FlSpot(xValue, widget.luxValue));
       });
       xValue += step;
     });
@@ -41,7 +42,7 @@ class _LuxChartState extends State<LuxChart> {
 
   @override
   Widget build(BuildContext context) {
-    return sinPoints.isNotEmpty
+    return luxPoints.isNotEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,10 +54,10 @@ class _LuxChartState extends State<LuxChart> {
                   child: LineChart(
                     duration: Duration.zero,
                     LineChartData(
-                      minY: -1,
-                      maxY: 1,
-                      minX: sinPoints.first.x,
-                      maxX: sinPoints.last.x,
+                      minY: 0,
+                      maxY: 2000,
+                      minX: luxPoints.first.x,
+                      maxX: luxPoints.last.x,
                       lineTouchData: const LineTouchData(enabled: false),
                       clipData: const FlClipData.all(),
                       gridData: const FlGridData(
@@ -65,7 +66,7 @@ class _LuxChartState extends State<LuxChart> {
                       ),
                       borderData: FlBorderData(show: true),
                       lineBarsData: [
-                        sinLine(sinPoints),
+                        sinLine(luxPoints),
                       ],
                       titlesData: const FlTitlesData(
                         show: false,

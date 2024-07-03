@@ -83,7 +83,7 @@ class MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
-            const LuxChart()
+            LuxChart(luxValue)
           ],
         ));
   }
