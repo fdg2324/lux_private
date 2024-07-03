@@ -18,7 +18,7 @@ class LuxChart extends StatefulWidget {
 }
 
 class _LuxChartState extends State<LuxChart> {
-  final limitCount = 100;
+  final limitCount = 200;
   final luxPoints = <FlSpot>[];
 
   double xValue = 0;
@@ -29,7 +29,7 @@ class _LuxChartState extends State<LuxChart> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 40), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       while (luxPoints.length > limitCount) {
         luxPoints.removeAt(0);
       }

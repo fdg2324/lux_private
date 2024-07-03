@@ -69,22 +69,24 @@ class MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           foregroundColor: Colors.white,
           backgroundColor: Colors.blue,),
-        body: Column(
-          children: [
-            _getRadialGauge(),
-            Slider(
-              value: luxValue,
-              min: 0,
-              max: maxLuxValue,
-              onChanged: (value) {
-                print(value);
-                setState(() {
-                  luxValue = value;
-                });
-              },
-            ),
-            LuxChart(luxValue)
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _getRadialGauge(),
+              Slider(
+                value: luxValue,
+                min: 0,
+                max: maxLuxValue,
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    luxValue = value;
+                  });
+                },
+              ),
+              LuxChart(luxValue)
+            ],
+          ),
         ));
   }
 
